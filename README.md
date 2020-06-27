@@ -1,4 +1,4 @@
-### EventPress [![](https://jitpack.io/v/godstale/EventPress.svg)](https://jitpack.io/#godstale/EventPress) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxBus2-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5358)
+### EventPress [![](https://jitpack.io/v/godstale/EventPress.svg)](https://jitpack.io/#godstale/EventPress)
 
 EventPress provides reactive style event bus, especially focused on effective management of multiple event streams. To achieve this EventPress implements topic management which is very similar with MQTT topic.
 
@@ -48,7 +48,7 @@ dependencies {
 
 ##### Topic
 
-Topic is the hierarchy expression of each event stream which uses '/' as divider like path of file system. For example:
+Topic is the hierarchical expression of each event stream which uses '/' as divider like path of file system. For example:
 
 * /api
 * /api/member
@@ -57,7 +57,7 @@ Topic is the hierarchy expression of each event stream which uses '/' as divider
 
 If you made topic hierarchy like example, publishing an event on the topic */api/member* delivers event to */api/member*, */api/member/logic* and */api/member/info*.
 
-You can name each event stream like example. But you have to follow below rules.
+You can name each event stream as you wish. But you have to follow below rules.
 
 * Topic string must starts with '/'
 * Topic string should not end with '/'
@@ -71,7 +71,7 @@ You can name each event stream like example. But you have to follow below rules.
 
 ##### Test code
 
-Check out the [MainActivity](https://github.com/godstale/EventPress/blob/master/app/src/main/java/com/example/eventpress/MainActivity.kt), it will show the basic usage of EventPress
+Check out the [MainActivity](https://github.com/godstale/EventPress/blob/master/app/src/main/java/com/example/eventpress/MainActivity.kt), there are test codes to check out basic usage of EventPress.
 
 ##### Simple usage
 
@@ -89,11 +89,11 @@ Most simpe way to observe and publish events. :
     // Send message
     EventPress.publish("Hello world!!")
 
-No topic definition is visible in this example but EventPress core uses common topic **/sys/common**.
+No topic definition is found in this example but EventPress core uses common topic, **/sys/common**.
 
-Very easy to use but keep in mind that all the observer must use same object type over the application. (See the type casting of **String**)
+Very easy to use but keep in mind that all the observer on this topic must use same object type over the application. (See the type casting of **String**)
 
-**And do not forget** the disposable.dispose() after use. Example used compositeDisposable to do this at finalize stage.
+**And do not forget** the disposable.dispose() after use. Example used compositeDisposable to do this at finalize stage of activity class.
 
 ##### Basic usage
 
@@ -122,9 +122,9 @@ Observe and publish events on custom topic. :
 
 You can make a topic, event stream, with EventPressBuilder. But without builder code, you can receive events by calling **EventPress.observe<>()**. Because EventPress makes topic automatically if it's not exist.    
 
-There are two way of observation. **EventPress.observe<>()** attach your lambda function to **FLOWABLE** event stream. You cannot add to Rx operators on this stream but this way is safe from unexpectable exception.
+There are two way of observation. **EventPress.observe<>()** attach your lambda function to **FLOWABLE** event stream.(internal calling of .subscribe(your_lambda) to Flowable) You cannot add to Rx operators on this stream but this way is safe from unexpectable exceptions.
 
-**EventPress.getTopicFlowable<>()** exposes Flowable event stream to you so you have to call **.subscribe()** by youself. You can add Rx operators on event stream but this could make unexpectable actions on all other observers in this stream.   
+**EventPress.getTopicFlowable<>()** exposes Flowable event stream to you directly. So you have to call **.subscribe()** by youself. You can add Rx operators on event stream but this could make unexpectable effects on all other observers in this event stream.   
 
 ##### Publish an event
 
@@ -161,11 +161,11 @@ Publish an event to topics. :
     // send and event to a topic and descendants
     EventPress.publish(TOPIC_TEST_PUBLISH, "Hello world!!")
 
-**recursive = false** parameter prevents publishing events to descendants.
+**recursive = false** parameter targets only one topic.
 
 ##### Remove topics
 
-Test to remove a topic and descendants.
+Test to remove a topic and descendants :
 
     val TOPIC_TEST_REMOVE = "/test/pub"
     val TOPIC_TEST_REMOVE1 = "/test/pub/depth1"
@@ -208,7 +208,7 @@ Always EventPress.remove() deletes target topic and descendants all.
 
 ##### Builder test
 
-How to use builder to apply scheduler to topics. :
+How to use builder to apply scheduler to the topic :
 
     val TOPIC_TEST_BUILDER = "/test/builder/default"
 
@@ -258,7 +258,7 @@ Add **.withScheduler(EventScheduler.Type.UI)** in builder method chain to run ob
 
 ##### Flow control
 
-	// Make topic with backpressure strategy and valve control
+    // Make topic with backpressure strategy and valve control
     EventPress.builder()
         .setTopic(MainActivity::class.java)
         .withScheduler(EventScheduler.Type.UI)
