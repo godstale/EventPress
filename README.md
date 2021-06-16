@@ -1,4 +1,4 @@
-내용에 별 차이 없으니 한글이 편하시다면 여기로... [EventPress 한글 매뉴얼](http://roasterhouse.com/?p=12405)
+내용에 별 차이 없으니 한글이 편하시다면 여기로... [EventPress 한글 매뉴얼](https://www.hardcopyworld.com/?p=12405)
 
 ### EventPress: Topic based event bus for Android [![](https://jitpack.io/v/godstale/EventPress.svg)](https://jitpack.io/#godstale/EventPress)
 
